@@ -3,7 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload</title>
+    <title>File Upload and Download - Your Website Name</title>
+    <meta name="description" content="Upload and download files with ease on Your Website Name. We offer a simple and efficient file sharing service.">
+    <meta name="keywords" content="file upload, file download, file sharing, upload service, download service">
+    <meta name="author" content="Your Name">
+
+    <meta property="og:title" content="File Upload and Download - Your Website Name">
+    <meta property="og:description" content="Upload and download files with ease on Your Website Name. We offer a simple and efficient file sharing service.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://media.discordapp.net/attachments/922883147006361620/1173712720902762496/file-sharing.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="File Upload and Download - Your Website Name">
+    <meta name="twitter:description" content="Upload and download files with ease on Your Website Name. We offer a simple and efficient file sharing service.">
+    <meta name="twitter:image" content="https://media.discordapp.net/attachments/922883147006361620/1173712720902762496/file-sharing.png">
+
+    <link rel="canonical" href="djontop.github.io">
+    <script src="https://fast.com/assets/fast.com-v0.6.js"></script>
+
+
+    
     <style>
         body {
             margin: 0;
@@ -37,6 +55,9 @@
             <div id="fileSizeContainer">File Size: NA</div>
             <div id="uploadProgressContainer">Upload Progress: NA</div>
             <button type="button" onclick="uploadFile()">Upload File</button>
+            <div id="internetSpeedDisplay" style="position: absolute; top: 10px; right: 10px; border-radius: 8px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);            ">Internet Speed: Detecting...</div>
+            <div id="networkSpeedDisplay">Network Speed: Checking...</div>
+
         </form>
 
         <div id="progressBarContainer">
@@ -53,6 +74,59 @@
 
         <button id="downloadFileButton" onclick="downloadFile()" disabled>Download File</button>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const internetSpeedDisplay = document.getElementById('internetSpeedDisplay');
+        
+            if ('connection' in navigator) {
+                const connection = navigator.connection;
+        
+                // Add an event listener to monitor changes in the network type
+                connection.addEventListener('change', updateInternetSpeed);
+        
+                // Initial update
+                updateInternetSpeed();
+        
+                function updateInternetSpeed() {
+                    const speed = getInternetSpeed(connection.effectiveType);
+                    internetSpeedDisplay.textContent = `Internet Speed: ${speed}`;
+                }
+        
+                function getInternetSpeed(effectiveType) {
+                switch (effectiveType) {
+                    case '4g':
+                        return '4G';
+                    case '5g':
+                        return '5G'; 
+                    case '3g':
+                        return '3G';
+                    case '2g':
+                        return '2G';
+                    case 'slow-2g':
+                        return 'Slow 2G';
+                    default:
+                        return 'Detecting...';
+                }
+            }
+            } else {
+                // The navigator.connection API is not available in all browsers
+                // You can provide a fallback message or use a different method to detect internet speed.
+                internetSpeedDisplay.textContent = 'Internet Speed: Not supported';
+            }
+        });
+    </script>
+    <script>
+        // Function to get and display network speed
+        function getNetworkSpeed() {
+            fastdotcom.promise().then((speed) => {
+                const speedDisplay = document.getElementById('networkSpeedDisplay');
+                speedDisplay.textContent = `Network Speed: ${speed} Mbps`;
+            });
+        }
+
+        // Call the function to get and display the network speed
+        getNetworkSpeed();
+    </script>
     <script>
         function showFileSize() {
             const fileInput = document.getElementById('fileInput');
