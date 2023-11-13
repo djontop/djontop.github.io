@@ -1,30 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online File Sharing Website Coming Soon</title>
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://store1.gofile.io;">
+    <title>File Upload</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url("https://media.discordapp.net/attachments/922883147006361620/1145009831783186442/nature-3082832_1280.jpg?width=1193&height=671");
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #uploadForm {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            background-color: #fff;
+        }
+    </style>
 </head>
-
 <body>
-    <form id="uF" enctype="multipart/form-data"><label for="fI">Choose a file:</label><input type="file" id="fI"
-            name="f" accept=".txt, .mp4, .pdf" onchange="sFS()"><br>
-        <div id="fSC">FS: NA</div>
-        <div id="uPC">UP: NA</div><button type="button" onclick="uF()">Upload File</button>
-    </form>
-    <div id="pBC">
-        <div id="pB">
-            <div id="p"></div>
+    <div class="center-container">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="fileInput">Choose a file:</label>
+            <input type="file" id="fileInput" name="file" accept=".txt, .mp4, .pdf" onchange="showFileSize()">
+            <br>
+            <div id="fileSizeContainer">File Size: NA</div>
+            <div id="uploadProgressContainer">Upload Progress: NA</div>
+            <button type="button" onclick="uploadFile()">Upload File</button>
+        </form>
+
+        <div id="progressBarContainer">
+            <div id="progressBar">
+                <div id="progress"></div>
+            </div>
+            <div id="uploadSpeedContainer">Upload Speed: <span id="uploadSpeed">0 B/s</span></div>
         </div>
-        <div id="uSC">Upload Size: <span id="uS">0 B/s</span></div>
+
+        <div id="downloadLinkContainer">
+            <div id="downloadLinkText"></div>
+            <button id="copyButton" onclick="copyDownloadLink()">Copy Link</button>
+        </div>
+
+        <button id="downloadFileButton" onclick="downloadFile()" disabled>Download File</button>
     </div>
-    <div id="dLC">
-        <div id="dLT"></div><button id="cB" onclick="cDL()">Copy link</button>
-    </div><button id="dFB" onclick="dF()" disabled>Download File</button>
-    <script>function sFS() { const fI = document.getElementById('fI'); const fSC = document.getElementById('fSC'); const uPC = document.getElementById('uPC'); if (fI.files.length > 0) { const fS = fI.files[0].size; fSC.innerText = `FS: ${fB(fS)}`; uPC.innerText = 'UP: 0 B / ' + fB(fS); } else { fSC.innerText = 'FS: NA'; uPC.innerText = 'UP: NA'; } } function uF() { const fD = new FormData(); const fI = document.getElementById('fI'); fD.append('f', fI.files[0]); const pBC = document.getElementById('pBC'); const pB = document.getElementById('pB'); const uSC = document.getElementById('uSC'); const uS = document.getElementById('uS'); const fSC = document.getElementById('fSC'); const uPC = document.getElementById('uPC'); const dLC = document.getElementById('dLC'); const dLT = document.getElementById('dLT'); const cB = document.getElementById('cB'); const dFB = document.getElementById('dFB'); pBC.style.display = 'block'; let sT; let pL = 0; const xR = new XMLHttpRequest(); xR.open('POST', 'https://store1.gofile.io/uploadFile', true); xR.upload.onprogress = function (e) { if (e.lengthComputable) { const p = (e.loaded / e.total) * 100; pB.style.width = `${p}%`; const cT = new Date().getTime(); const eT = (cT - sT) / 1000; const lD = e.loaded - pL; const uS = lD / eT; pL = e.loaded; sT = cT; uS.innerText = fB(uS) + '/s'; const tS = e.total; const uSiz = e.loaded; const uP = `${fB(uSiz)} / ${fB(tS)}`; uPC.innerText = `UP: ${uP}`; } }; xR.onreadystatechange = function () { if (xR.readyState === 4 && xR.status === 200) { const d = JSON.parse(xR.responseText); if (d.status === 'ok') { const dL = d.data.downloadPage; dLT.innerText = dL; dFB.removeAttribute('disabled'); dFB.style.display = 'inline-block'; pBC.style.display = 'none'; } } }; sT = new Date().getTime(); xR.send(fD); } function dF() { const dLT = document.getElementById('dLT'); const dL = document.createElement('a'); dL.href = dLT.innerText; dL.target = '_blank'; document.body.appendChild(dL); dL.click(); document.body.removeChild(dL); } function cDL() { const dLT = document.getElementById('dLT'); const tA = document.createElement('textarea'); tA.value = dLT.innerText; document.body.appendChild(tA); tA.select(); document.execCommand('copy'); document.body.removeChild(tA); const cB = document.getElementById('cB'); cB.innerText = 'LC!'; setTimeout(() => { cB.innerText = 'CL'; }, 2000); } function fB(b, d = 2) { if (b === 0) return '0B'; const k = 1024; const dm = d < 0 ? 0 : d; const s = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']; const i = Math.floor(Math.log(b) / Math.log(k)); return parseFloat((b / Math.pow(k, i)).toFixed(dm)) + ' ' + s[i]; }</script>
+    <script>
+        function showFileSize() {
+            const fileInput = document.getElementById('fileInput');
+            const fileSizeContainer = document.getElementById('fileSizeContainer');
+            const uploadProgressContainer = document.getElementById('uploadProgressContainer');
+
+            if (fileInput.files.length > 0) {
+                const fileSize = fileInput.files[0].size;
+                fileSizeContainer.innerText = `File Size: ${formatBytes(fileSize)}`;
+                uploadProgressContainer.innerText = 'Upload Progress: 0 B / ' + formatBytes(fileSize);
+            } else {
+                fileSizeContainer.innerText = 'File Size: NA';
+                uploadProgressContainer.innerText = 'Upload Progress: NA';
+            }
+        }
+
+        function uploadFile() {
+            const formData = new FormData();
+            const fileInput = document.getElementById('fileInput');
+            formData.append('file', fileInput.files[0]);
+
+            const progressBarContainer = document.getElementById('progressBarContainer');
+            const progressBar = document.getElementById('progress');
+            const uploadSpeedContainer = document.getElementById('uploadSpeedContainer');
+            const uploadSpeedSpan = document.getElementById('uploadSpeed');
+            const fileSizeContainer = document.getElementById('fileSizeContainer');
+            const uploadProgressContainer = document.getElementById('uploadProgressContainer');
+            const downloadLinkContainer = document.getElementById('downloadLinkContainer');
+            const downloadLinkText = document.getElementById('downloadLinkText');
+            const copyButton = document.getElementById('copyButton');
+            const downloadFileButton = document.getElementById('downloadFileButton');
+
+            // Show progress bar
+            progressBarContainer.style.display = 'block';
+
+            let startTime;
+            let prevLoaded = 0;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://store1.gofile.io/uploadFile', true);
+
+            xhr.upload.onprogress = function (e) {
+                if (e.lengthComputable) {
+                    const progress = (e.loaded / e.total) * 100;
+                    progressBar.style.width = `${progress}%`;
+
+                    // Calculate upload speed
+                    const currentTime = new Date().getTime();
+                    const elapsedTime = (currentTime - startTime) / 1000; // in seconds
+                    const loadedDelta = e.loaded - prevLoaded;
+
+                    const uploadSpeed = loadedDelta / elapsedTime; // in bytes per second
+                    prevLoaded = e.loaded;
+                    startTime = currentTime;
+
+                    // Display upload speed
+                    uploadSpeedSpan.innerText = formatBytes(uploadSpeed) + '/s';
+
+                    // Display upload progress
+                    const totalSize = e.total;
+                    const uploadedSize = e.loaded;
+                    const uploadProgress = `${formatBytes(uploadedSize)} / ${formatBytes(totalSize)}`;
+                    uploadProgressContainer.innerText = `Upload Progress: ${uploadProgress}`;
+                }
+            };
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+
+                    if (data.status === 'ok') {
+                        console.log(data.data);
+
+                        // Show download link
+                        const downloadLink = data.data.downloadPage;
+                        downloadLinkText.innerText = downloadLink;
+
+                        // Show "Download File" button
+                        downloadFileButton.removeAttribute('disabled');
+                        downloadFileButton.style.display = 'inline-block';
+
+                        // Hide progress bar after successful upload
+                        progressBarContainer.style.display = 'none';
+                    }
+                }
+            };
+
+            startTime = new Date().getTime();
+            xhr.send(formData);
+        }
+
+        function downloadFile() {
+            const downloadLinkText = document.getElementById('downloadLinkText');
+
+            // Create a temporary link element to trigger the download
+            const downloadLink = document.createElement('a');
+            downloadLink.href = downloadLinkText.innerText;
+            downloadLink.target = '_blank';
+            document.body.appendChild(downloadLink);
+
+            // Trigger a click on the link to initiate the download
+            downloadLink.click();
+
+            // Remove the temporary link from the DOM
+            document.body.removeChild(downloadLink);
+        }
+
+        function copyDownloadLink() {
+            const downloadLinkText = document.getElementById('downloadLinkText');
+
+            // Create a textarea element to copy the text
+            const textarea = document.createElement('textarea');
+            textarea.value = downloadLinkText.innerText;
+            document.body.appendChild(textarea);
+
+            // Select and copy the text
+            textarea.select();
+            document.execCommand('copy');
+
+            // Remove the textarea from the DOM
+            document.body.removeChild(textarea);
+
+            // Visual indication that the text has been copied
+            const copyButton = document.getElementById('copyButton');
+            copyButton.innerText = 'Link Copied!';
+            setTimeout(() => {
+                copyButton.innerText = 'Copy Link';
+            }, 2000);
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+    </script>
+
 </body>
 
 </html>
