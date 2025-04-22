@@ -1,0 +1,29 @@
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor folders
+.idea/
+.vscode/
+*.sublime-*
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+
+# Build artifacts
+dist/
+build/
+.tmp/
+
+# Logs
+logs/
+*.log
+
+# Misc
+.env
+.env.local
+.env.*.local 

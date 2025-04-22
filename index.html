@@ -1,275 +1,280 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload and Download Sharing</title>
-    <meta name="description" content="Upload and download files with ease on Your Website Name. We offer a simple and efficient file sharing service.">
-    <meta name="keywords" content="file upload, file download, file sharing, upload service, download service">
-    <meta name="author" content="Manthan Vasant | Djontop">
-
-    <meta property="og:title" content="File Upload and Download Sharing<">
-    <meta property="og:description" content="Upload and download files with ease on File Upload and Download Sharing. We offer a simple and efficient file sharing service.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://media.discordapp.net/attachments/922883147006361620/1173712720902762496/file-sharing.png">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="File Upload and Download Sharing<">
-    <meta name="twitter:description" content="Upload and download files with ease on Your Website Name. We offer a simple and efficient file sharing service.">
-    <meta name="twitter:image" content="https://media.discordapp.net/attachments/922883147006361620/1173712720902762496/file-sharing.png">
-    <meta name="google-adsense-account" content="ca-pub-5771294432233699">
-    <link rel="canonical" href="djontop.github.io">
-    <script src="https://fast.com/assets/fast.com-v0.6.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5771294432233699"
-     crossorigin="anonymous"></script>
-    
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-image: url("https://media.discordapp.net/attachments/922883147006361620/1145009831783186442/nature-3082832_1280.jpg?width=1193&height=671");
-            background-size: cover;
-            background-attachment: fixed;
-        }
-        .center-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        #uploadForm {
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            background-color: #fff;
-        }
-    </style>
+    <meta name="description" content="Manthan Vasant (DJ On Top) - AI, Python and FiveM Developer - Explore the latest projects and contributions from Manthan Vasant">
+    <meta name="keywords" content="Manthan Vasant, DJ On Top, djontop, GitHub, AI Developer, Python Developer, FiveM, QBCore, Machine Learning, Generative AI">
+    <meta name="author" content="Manthan Vasant (DJ On Top)">
+    <meta name="robots" content="index, follow">
+    <title>Manthan Vasant (DJ On Top) - AI, Python and FiveM Developer</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffbb00">
+    <meta property="og:title" content="Manthan Vasant (DJ On Top) - AI, Python and FiveM Developer">
+    <meta property="og:description" content="Explore the latest projects and contributions from Manthan Vasant">
+    <meta property="og:image" content="https://files.fivemerr.com/images/0c499a61-91ee-46da-85c6-eba2826aff63.png">
+    <meta property="og:url" content="https://djontop.github.io">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-    <div class="center-container">
-        <form id="uploadForm" enctype="multipart/form-data">
-            <label for="fileInput">Choose a file:</label>
-            <input type="file" id="fileInput" name="file" accept=".txt, .mp4, .pdf" onchange="showFileSize()">
-            <br>
-            <div id="fileSizeContainer">File Size: NA</div>
-            <div id="uploadProgressContainer">Upload Progress: NA</div>
-            <button type="button" onclick="uploadFile()">Upload File</button>
-            <div id="internetSpeedDisplay" style="position: absolute; top: 10px; right: 10px; border-radius: 8px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);            ">Internet Speed: Detecting...</div>
-            <div id="networkSpeedDisplay">Network Speed: Checking...</div>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="#">
+                        <span class="highlight">DJ</span> On Top
+                    </a>
+                </div>
+                <div class="nav-right">
+                    <div class="theme-toggle">
+                        <button id="theme-toggle-btn" aria-label="Toggle dark mode">
+                            <i class="fas fa-moon"></i>
+                            <i class="fas fa-sun"></i>
+                        </button>
+                    </div>
+                    <div class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#repositories">Repositories</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-        </form>
-
-        <div id="progressBarContainer">
-            <div id="progressBar">
-                <div id="progress"></div>
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="animate-title">AI - Python and FiveM Developer <span class="highlight">Specialist</span></h1>
+                <p class="animate-subtitle">Exploring AI innovation and development one project at a time</p>
+                <div class="cta-buttons animate-buttons">
+                    <a href="#repositories" class="btn btn-primary">Explore Repositories</a>
+                    <a href="https://github.com/djontop" class="btn btn-secondary" target="_blank">GitHub Profile</a>
+                </div>
+                <div class="stats animate-stats">
+                    <div class="stat">
+                        <span id="repo-count" class="counter">50</span>
+                        <span class="label">Repositories</span>
+                    </div>
+                    <div class="stat">
+                        <span id="stars-count" class="counter">62</span>
+                        <span class="label">Stars</span>
+                    </div>
+                    <div class="stat">
+                        <span id="followers-count" class="counter">8</span>
+                        <span class="label">Followers</span>
+                    </div>
+                </div>
             </div>
-            <div id="uploadSpeedContainer">Upload Speed: <span id="uploadSpeed">0 B/s</span></div>
-        </div>
+            <div class="hero-image animate-image">
+                <div class="code-window">
+                    <div class="window-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <pre><code class="language-javascript">// Manthan Vasant (DJ On Top)
+const developer = {
+  name: "Manthan Vasant",
+  alias: "DJ On Top",
+  skills: ["AI", "Python", "Machine Learning", 
+          "FiveM", "QBCore", "Lua"],
+  education: "B.Tech in AI and Data Science",
+  passion: "Creating AI solutions & awesome scripts",
+  github: "https://github.com/djontop"
+};
 
-        <div id="downloadLinkContainer">
-            <div id="downloadLinkText"></div>
-            <button id="copyButton" onclick="copyDownloadLink()">Copy Link</button>
-        </div>
+function connect() {
+  return developer.github;
+}
 
-        <button id="downloadFileButton" onclick="downloadFile()" disabled>Download File</button>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const internetSpeedDisplay = document.getElementById('internetSpeedDisplay');
-        
-            if ('connection' in navigator) {
-                const connection = navigator.connection;
-        
-                // Add an event listener to monitor changes in the network type
-                connection.addEventListener('change', updateInternetSpeed);
-        
-                // Initial update
-                updateInternetSpeed();
-        
-                function updateInternetSpeed() {
-                    const speed = getInternetSpeed(connection.effectiveType);
-                    internetSpeedDisplay.textContent = `Internet Speed: ${speed}`;
-                }
-        
-                function getInternetSpeed(effectiveType) {
-                switch (effectiveType) {
-                    case '4g':
-                        return '4G';
-                    case '5g':
-                        return '5G'; 
-                    case '3g':
-                        return '3G';
-                    case '2g':
-                        return '2G';
-                    case 'slow-2g':
-                        return 'Slow 2G';
-                    default:
-                        return 'Detecting...';
-                }
-            }
-            } else {
-                // The navigator.connection API is not available in all browsers
-                // You can provide a fallback message or use a different method to detect internet speed.
-                internetSpeedDisplay.textContent = 'Internet Speed: Not supported';
-            }
-        });
+// Ready to collaborate?
+connect();</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="repositories" class="repositories">
+        <div class="container">
+            <div class="section-header">
+                <h2>My <span class="highlight">Repositories</span></h2>
+                <p>Explore my latest public projects and contributions</p>
+            </div>
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="repo-search" placeholder="Search repositories...">
+                </div>
+                <div class="filter-container">
+                    <select id="language-filter">
+                        <option value="all">All Languages</option>
+                        <option value="Lua">Lua</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="HTML">HTML</option>
+                        <option value="CSS">CSS</option>
+                    </select>
+                </div>
+            </div>
+            <div class="repo-grid" id="repo-container">
+                <!-- Repositories will be dynamically loaded here -->
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>About <span class="highlight">Me</span></h2>
+                <p>AI Developer | Python Developer | FiveM Developer | QBCore | B.Tech in AI and Data Science</p>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="image-container">
+                        <img src="https://files.fivemerr.com/images/0c499a61-91ee-46da-85c6-eba2826aff63.png" alt="DJ On Top" id="profile-image" onerror="this.src='images/profile-placeholder.jpg'">
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h3>Manthan Vasant (DJ On Top)</h3>
+                    <p class="bio">
+                        AI Developer | Python Developer | FiveM Developer | QBCore | Generative AI Specialist from India. Passionate about creating quality scripts, AI solutions, and enhancing the user experience. B.Tech in Artificial Intelligence and Data Science.
+                    </p>
+                    <div class="skills">
+                        <h4>Tech Stack</h4>
+                        <div class="skill-tags">
+                            <span>Python</span>
+                            <span>SQL</span>
+                            <span>C</span>
+                            <span>R</span>
+                            <span>Java</span>
+                            <span>Lua</span>
+                            <span>HTML/CSS/JS</span>
+                            <span>Generative AI</span>
+                            <span>LLMs</span>
+                            <span>Machine Learning</span>
+                            <span>NLP</span>
+                            <span>Cloud Computing</span>
+                            <span>OpenCV</span>
+                            <span>REST API</span>
+                            <span>Docker</span>
+                            <span>Git/GitHub</span>
+                            <span>QBCore</span>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://github.com/djontop" target="_blank" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://discord.com" target="_blank" title="Discord">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get in <span class="highlight">Touch</span></h2>
+                <p>Interested in collaboration or have questions about my repositories?</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <h3>GitHub</h3>
+                        <p>Follow me on GitHub to stay updated with my latest projects</p>
+                        <a href="https://github.com/djontop" target="_blank" class="contact-link">@djontop</a>
+                    </div>
+                    <div class="contact-method">
+                        <div class="icon">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <h3>Discord</h3>
+                        <p>Reach out to me directly on Discord for collaboration</p>
+                        <a href="#" class="contact-link">DJ ✔ 👑#5537</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="#">
+                        <span class="highlight">Manthan Vasant</span> (DJ On Top)
+                    </a>
+                    <p>AI Developer | Python Developer | FiveM Developer</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#repositories">Repositories</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Connect</h3>
+                    <div class="social-icons">
+                        <a href="https://github.com/djontop" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://discord.com" target="_blank"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> Manthan Vasant (DJ On Top). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Manthan Vasant",
+            "alternateName": "DJ On Top",
+            "url": "https://djontop.github.io",
+            "image": "https://files.fivemerr.com/images/0c499a61-91ee-46da-85c6-eba2826aff63.png",
+            "jobTitle": ["AI Developer", "Python Developer", "FiveM Developer"],
+            "description": "Manthan Vasant (DJ On Top) - AI, Python and FiveM Developer specializing in Generative AI, Machine Learning, and QBCore development.",
+            "sameAs": ["https://github.com/djontop"]
+        }
     </script>
     <script>
-        // Function to get and display network speed
-        function getNetworkSpeed() {
-            fastdotcom.promise().then((speed) => {
-                const speedDisplay = document.getElementById('networkSpeedDisplay');
-                speedDisplay.textContent = `Network Speed: ${speed} Mbps`;
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/serviceworker.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
             });
         }
-
-        // Call the function to get and display the network speed
-        getNetworkSpeed();
     </script>
-    <script>
-        function showFileSize() {
-            const fileInput = document.getElementById('fileInput');
-            const fileSizeContainer = document.getElementById('fileSizeContainer');
-            const uploadProgressContainer = document.getElementById('uploadProgressContainer');
-
-            if (fileInput.files.length > 0) {
-                const fileSize = fileInput.files[0].size;
-                fileSizeContainer.innerText = `File Size: ${formatBytes(fileSize)}`;
-                uploadProgressContainer.innerText = 'Upload Progress: 0 B / ' + formatBytes(fileSize);
-            } else {
-                fileSizeContainer.innerText = 'File Size: NA';
-                uploadProgressContainer.innerText = 'Upload Progress: NA';
-            }
-        }
-
-        function uploadFile() {
-            const formData = new FormData();
-            const fileInput = document.getElementById('fileInput');
-            formData.append('file', fileInput.files[0]);
-
-            const progressBarContainer = document.getElementById('progressBarContainer');
-            const progressBar = document.getElementById('progress');
-            const uploadSpeedContainer = document.getElementById('uploadSpeedContainer');
-            const uploadSpeedSpan = document.getElementById('uploadSpeed');
-            const fileSizeContainer = document.getElementById('fileSizeContainer');
-            const uploadProgressContainer = document.getElementById('uploadProgressContainer');
-            const downloadLinkContainer = document.getElementById('downloadLinkContainer');
-            const downloadLinkText = document.getElementById('downloadLinkText');
-            const copyButton = document.getElementById('copyButton');
-            const downloadFileButton = document.getElementById('downloadFileButton');
-
-            // Show progress bar
-            progressBarContainer.style.display = 'block';
-
-            let startTime;
-            let prevLoaded = 0;
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://store1.gofile.io/uploadFile', true);
-
-            xhr.upload.onprogress = function (e) {
-                if (e.lengthComputable) {
-                    const progress = (e.loaded / e.total) * 100;
-                    progressBar.style.width = `${progress}%`;
-
-                    // Calculate upload speed
-                    const currentTime = new Date().getTime();
-                    const elapsedTime = (currentTime - startTime) / 1000; // in seconds
-                    const loadedDelta = e.loaded - prevLoaded;
-
-                    const uploadSpeed = loadedDelta / elapsedTime; // in bytes per second
-                    prevLoaded = e.loaded;
-                    startTime = currentTime;
-
-                    // Display upload speed
-                    uploadSpeedSpan.innerText = formatBytes(uploadSpeed) + '/s';
-
-                    // Display upload progress
-                    const totalSize = e.total;
-                    const uploadedSize = e.loaded;
-                    const uploadProgress = `${formatBytes(uploadedSize)} / ${formatBytes(totalSize)}`;
-                    uploadProgressContainer.innerText = `Upload Progress: ${uploadProgress}`;
-                }
-            };
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    const data = JSON.parse(xhr.responseText);
-
-                    if (data.status === 'ok') {
-                        console.log(data.data);
-
-                        // Show download link
-                        const downloadLink = data.data.downloadPage;
-                        downloadLinkText.innerText = downloadLink;
-
-                        // Show "Download File" button
-                        downloadFileButton.removeAttribute('disabled');
-                        downloadFileButton.style.display = 'inline-block';
-
-                        // Hide progress bar after successful upload
-                        progressBarContainer.style.display = 'none';
-                    }
-                }
-            };
-
-            startTime = new Date().getTime();
-            xhr.send(formData);
-        }
-
-        function downloadFile() {
-            const downloadLinkText = document.getElementById('downloadLinkText');
-
-            // Create a temporary link element to trigger the download
-            const downloadLink = document.createElement('a');
-            downloadLink.href = downloadLinkText.innerText;
-            downloadLink.target = '_blank';
-            document.body.appendChild(downloadLink);
-
-            // Trigger a click on the link to initiate the download
-            downloadLink.click();
-
-            // Remove the temporary link from the DOM
-            document.body.removeChild(downloadLink);
-        }
-
-        function copyDownloadLink() {
-            const downloadLinkText = document.getElementById('downloadLinkText');
-
-            // Create a textarea element to copy the text
-            const textarea = document.createElement('textarea');
-            textarea.value = downloadLinkText.innerText;
-            document.body.appendChild(textarea);
-
-            // Select and copy the text
-            textarea.select();
-            document.execCommand('copy');
-
-            // Remove the textarea from the DOM
-            document.body.removeChild(textarea);
-
-            // Visual indication that the text has been copied
-            const copyButton = document.getElementById('copyButton');
-            copyButton.innerText = 'Link Copied!';
-            setTimeout(() => {
-                copyButton.innerText = 'Copy Link';
-            }, 2000);
-        }
-
-        function formatBytes(bytes, decimals = 2) {
-            if (bytes === 0) return '0 Bytes';
-
-            const k = 1024;
-            const dm = decimals < 0 ? 0 : decimals;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-        }
-    </script>
-
 </body>
-
-</html>
+</html> 
