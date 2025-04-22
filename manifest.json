@@ -1,11 +1,11 @@
 {
-  "name": "Mathan Vasant (DJ On Top) - GitHub Repositories",
+  "name": "Manthan Vasant (DJ On Top) - GitHub Repositories",
   "short_name": "DJ Repos",
   "description": "Explore GitHub repositories from DJ On Top",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f8fafc",
-  "theme_color": "#ffbb00",
+  "theme_color": "#8c00ff",
   "icons": [
     {
       "src": "images/favicon.svg",

@@ -84,8 +84,16 @@ function initParticles() {
     let height = canvas.height = hero.offsetHeight;
     
     // Particle properties
-    const particleCount = 50;
+    const particleCount = 60;
     const particles = [];
+    
+    // Particle colors for Balamurali's theme
+    const particleColors = [
+        'rgba(255, 187, 0, 0.3)',    // Primary gold
+        'rgba(55, 0, 179, 0.2)',     // Deep purple
+        'rgba(0, 120, 212, 0.25)',   // Blue
+        'rgba(0, 153, 153, 0.2)'     // Teal
+    ];
     
     // Particle class
     class Particle {
@@ -95,7 +103,8 @@ function initParticles() {
             this.size = Math.random() * 5 + 1;
             this.speedX = Math.random() * 1 - 0.5;
             this.speedY = Math.random() * 1 - 0.5;
-            this.color = `rgba(110, 87, 224, ${Math.random() * 0.3 + 0.1})`;
+            this.color = particleColors[Math.floor(Math.random() * particleColors.length)];
+            this.opacity = Math.random() * 0.3 + 0.1;
         }
         
         update() {
@@ -141,7 +150,7 @@ function initParticles() {
     
     // Connect nearby particles with lines
     function connectParticles(particle, particles) {
-        const maxDistance = 100;
+        const maxDistance = 120;
         
         for (let i = 0; i < particles.length; i++) {
             const dx = particle.x - particles[i].x;
@@ -150,7 +159,9 @@ function initParticles() {
             
             if (distance < maxDistance) {
                 const opacity = 1 - (distance / maxDistance);
-                ctx.strokeStyle = `rgba(110, 87, 224, ${opacity * 0.2})`;
+                // Get a gradient color between the two particles
+                const gradientColor = `rgba(255, 187, 0, ${opacity * 0.15})`;
+                ctx.strokeStyle = gradientColor;
                 ctx.lineWidth = 1;
                 ctx.beginPath();
                 ctx.moveTo(particle.x, particle.y);
@@ -159,6 +170,18 @@ function initParticles() {
             }
         }
     }
+    
+    // Add mouse interaction
+    let mouse = {
+        x: null,
+        y: null,
+        radius: 150
+    };
+    
+    window.addEventListener('mousemove', function(event) {
+        mouse.x = event.x;
+        mouse.y = event.y - window.scrollY;
+    });
     
     // Handle window resize
     window.addEventListener('resize', () => {
@@ -200,7 +223,7 @@ function initScrollAnimations() {
         .animate-hidden {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
         
         .animate-in {
@@ -211,46 +234,28 @@ function initScrollAnimations() {
     document.head.appendChild(style);
 }
 
-// Typing animation for hero heading (runs once on page load)
+// Typewriter effect for code window
 (function initTypewriterEffect() {
-    const heroTitle = document.querySelector('.hero-content h1');
-    if (!heroTitle) return;
+    const codeElement = document.querySelector('.language-javascript');
+    if (!codeElement) return;
     
-    // Store original text
-    const originalText = heroTitle.innerHTML;
+    const codeText = codeElement.textContent;
+    codeElement.textContent = '';
+    codeElement.classList.add('cursor-blink');
     
-    // Clear text initially
-    heroTitle.innerHTML = '';
+    let i = 0;
+    const typeSpeed = 30; // Typing speed in milliseconds
     
-    // Character index
-    let charIndex = 0;
+    function type() {
+        if (i < codeText.length) {
+            codeElement.textContent += codeText.charAt(i);
+            i++;
+            setTimeout(type, typeSpeed);
+        } else {
+            codeElement.classList.remove('cursor-blink');
+        }
+    }
     
-    // Start typing after a delay
-    setTimeout(() => {
-        const typingInterval = setInterval(() => {
-            if (charIndex < originalText.length) {
-                // Handle HTML tags
-                if (originalText[charIndex] === '<') {
-                    // Find the closing bracket
-                    const closeIndex = originalText.indexOf('>', charIndex);
-                    if (closeIndex !== -1) {
-                        heroTitle.innerHTML += originalText.substring(charIndex, closeIndex + 1);
-                        charIndex = closeIndex + 1;
-                    }
-                } else {
-                    heroTitle.innerHTML += originalText[charIndex];
-                    charIndex++;
-                }
-            } else {
-                clearInterval(typingInterval);
-                // Add cursor blink class
-                heroTitle.classList.add('cursor-blink');
-                
-                // Remove cursor after 2 seconds
-                setTimeout(() => {
-                    heroTitle.classList.remove('cursor-blink');
-                }, 2000);
-            }
-        }, 50);
-    }, 500);
+    // Start typing with a slight delay after page load
+    setTimeout(type, 1000);
 })(); 
