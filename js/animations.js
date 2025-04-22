@@ -319,7 +319,7 @@ function initTypewriterEffect() {
                 }
             } else {
                 // Done typing
-                heroTitle.classList.remove('cursor-blink');
+                    heroTitle.classList.remove('cursor-blink');
                 typeSubtitle();
             }
         }
@@ -345,9 +345,9 @@ function initTypewriterEffect() {
                     subtitleIndex++;
                     setTimeout(type, 50);
                 } else {
-                    subtitle.classList.remove('cursor-blink');
+                        subtitle.classList.remove('cursor-blink');
                     // Call the code window typing function after subtitle is done
-                    typeCodeWindow();
+                        typeCodeWindow();
                 }
             }
             
@@ -411,7 +411,7 @@ function initTypewriterEffect() {
                 // Check if we've typed all lines
                 if (currentLine >= codeLines.length) {
                     // We're done, apply syntax highlighting
-                    syntaxHighlight();
+                    syntaxHighlight(codeElement);
                     codeElement.classList.remove('cursor-blink');
                     return;
                 }
@@ -455,7 +455,7 @@ function initTypewriterEffect() {
             }
             
             // Syntax highlighting function that uses safer DOM manipulation
-            function syntaxHighlight() {
+            function syntaxHighlight(element) {
                 // Create a temporary div to hold the formatted code
                 const tempDiv = document.createElement('div');
                 
@@ -464,7 +464,7 @@ function initTypewriterEffect() {
                                  'for', 'while', 'in', 'and', 'or', 'not', 'True', 'False', 'None'];
                 
                 // Process each line
-                const lines = typedText.split('\n');
+                const lines = element.textContent.split('\n');
                 
                 lines.forEach(line => {
                     // Create a new div for this line
@@ -566,9 +566,9 @@ function initTypewriterEffect() {
                 });
                 
                 // Clear the code element and add the highlighted code
-                codeElement.innerHTML = '';
+                element.innerHTML = '';
                 tempDiv.childNodes.forEach(node => {
-                    codeElement.appendChild(node.cloneNode(true));
+                    element.appendChild(node.cloneNode(true));
                 });
             }
             
@@ -576,4 +576,125 @@ function initTypewriterEffect() {
             setTimeout(typeLine, 800);
         }
     }
-} 
+}
+
+// Syntax highlighting function that uses safer DOM manipulation
+function syntaxHighlight(element) {
+    // Create a temporary div to hold the formatted code
+    const tempDiv = document.createElement('div');
+    
+    // Python keywords and special items to highlight
+    const keywords = ['class', 'def', 'self', 'return', 'import', 'from', 'if', 'else', 'elif', 
+                     'for', 'while', 'in', 'and', 'or', 'not', 'True', 'False', 'None'];
+    
+    // Process each line
+    const lines = element.textContent.split('\n');
+    
+    lines.forEach(line => {
+        // Create a new div for this line
+        const lineDiv = document.createElement('div');
+        
+        // Handle comments first (they override everything else)
+        if (line.trim().startsWith('#')) {
+            const commentSpan = document.createElement('span');
+            commentSpan.className = 'py-comment';
+            commentSpan.textContent = line;
+            lineDiv.appendChild(commentSpan);
+            tempDiv.appendChild(lineDiv);
+            return;
+        }
+        
+        // Split the line into tokens (words, symbols, spaces)
+        let tokens = [];
+        let currentToken = '';
+        let inString = false;
+        let stringChar = '';
+        
+        // Simple tokenizer that respects string boundaries
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            
+            // Handle strings
+            if ((char === '"' || char === "'") && (i === 0 || line[i-1] !== '\\')) {
+                if (!inString) {
+                    // Starting a string
+                    if (currentToken) {
+                        tokens.push(currentToken);
+                        currentToken = '';
+                    }
+                    inString = true;
+                    stringChar = char;
+                    currentToken = char;
+                } else if (char === stringChar) {
+                    // Ending a string
+                    currentToken += char;
+                    tokens.push(currentToken);
+                    currentToken = '';
+                    inString = false;
+                } else {
+                    // A different quote character inside a string
+                    currentToken += char;
+                }
+            } else if (inString) {
+                // Inside a string, just add the character
+                currentToken += char;
+            } else if (/\s/.test(char)) {
+                // Whitespace outside a string
+                if (currentToken) {
+                    tokens.push(currentToken);
+                    currentToken = '';
+                }
+                tokens.push(char); // Keep whitespace as a token
+            } else if (/[^\w]/.test(char)) {
+                // Non-word character outside a string
+                if (currentToken) {
+                    tokens.push(currentToken);
+                    currentToken = '';
+                }
+                tokens.push(char);
+            } else {
+                // Word character outside a string
+                currentToken += char;
+            }
+        }
+        
+        // Add any remaining token
+        if (currentToken) {
+            tokens.push(currentToken);
+        }
+        
+        // Process tokens and add them to the line
+        tokens.forEach(token => {
+            const span = document.createElement('span');
+            
+            // Check what kind of token this is
+            if (keywords.includes(token)) {
+                span.className = 'py-keyword';
+            } else if (token === 'self') {
+                span.className = 'py-self';
+            } else if (token.startsWith('"') || token.startsWith("'")) {
+                span.className = 'py-string';
+            } else if (/^\d+$/.test(token)) {
+                span.className = 'py-number';
+            } else if (token === 'Developer') {
+                span.className = 'py-class';
+            } else if (token === 'connect') {
+                span.className = 'py-function';
+            }
+            
+            span.textContent = token;
+            lineDiv.appendChild(span);
+        });
+        
+        tempDiv.appendChild(lineDiv);
+    });
+    
+    // Clear the code element and add the highlighted code
+    element.innerHTML = '';
+    tempDiv.childNodes.forEach(node => {
+        element.appendChild(node.cloneNode(true));
+    });
+}
+
+// Make the syntax highlighting function available globally
+window.syntaxHighlight = syntaxHighlight; 

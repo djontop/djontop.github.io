@@ -1,0 +1,292 @@
+/* CSS for code-themed animations */
+
+/* Terminal Animation Styles */
+.terminal-container {
+    max-width: 800px;
+    margin: 20px auto 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    font-family: 'Consolas', 'Monaco', monospace;
+    background-color: #1e1e2e;
+    color: #f8f8f2;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.terminal-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-container.active {
+    border: 1px solid rgba(140, 0, 255, 0.3);
+}
+
+.terminal-header {
+    background-color: #343746;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 8px;
+    margin-right: 15px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dot.red {
+    background-color: #ff5f56;
+}
+
+.dot.yellow {
+    background-color: #ffbd2e;
+}
+
+.dot.green {
+    background-color: #27c93f;
+}
+
+.terminal-title {
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f8f8f2;
+}
+
+.terminal-body {
+    padding: 15px;
+    min-height: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    line-height: 1.6;
+    scrollbar-width: thin;
+    scrollbar-color: #8c00ff #1e1e2e;
+}
+
+.terminal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+    background: #1e1e2e;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background-color: #8c00ff;
+    border-radius: 20px;
+}
+
+.terminal-line {
+    display: flex;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.terminal-prompt {
+    color: #50fa7b;
+    margin-right: 10px;
+}
+
+.terminal-command {
+    color: #f8f8f2;
+    position: relative;
+}
+
+.terminal-command::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: #8c00ff;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.output-text {
+    margin-left: 20px;
+    margin-bottom: 15px;
+    color: #bd93f9;
+    white-space: pre-line;
+}
+
+.terminal-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    background-color: #282a36;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.terminal-instruction {
+    text-align: center;
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+.terminal-button {
+    background-color: #8c00ff;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s;
+    outline: none;
+    min-width: 180px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.terminal-button:hover {
+    background-color: #a030ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.terminal-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.terminal-container.active .terminal-instruction {
+    color: #50fa7b;
+}
+
+/* Matrix-style Code Rain */
+.code-rain-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin: 0 auto 60px;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.code-rain-container canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.rain-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.rain-title h2 {
+    color: white;
+    font-size: 3rem;
+    letter-spacing: 2px;
+}
+
+/* Language Switcher */
+.language-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.language-switcher button {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-color);
+}
+
+.language-switcher button:hover {
+    background-color: rgba(140, 0, 255, 0.1);
+}
+
+.language-switcher button.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Dark theme styles */
+html[data-theme="dark"] .terminal-container {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="dark"] .language-switcher button {
+    background-color: var(--dark-light-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+html[data-theme="dark"] .language-switcher button:hover {
+    background-color: rgba(140, 0, 255, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .code-rain-container {
+        height: 200px;
+    }
+    
+    .rain-title h2 {
+        font-size: 2rem;
+    }
+    
+    .terminal-body {
+        min-height: 200px;
+        font-size: 14px;
+    }
+    
+    .language-switcher {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 576px) {
+    .rain-title h2 {
+        font-size: 1.5rem;
+    }
+    
+    .terminal-body {
+        font-size: 12px;
+        padding: 10px;
+    }
+    
+    .terminal-container {
+        margin: 10px auto 40px;
+    }
+} 

@@ -9,6 +9,7 @@
     <meta name="robots" content="index, follow">
     <title>Manthan Vasant (DJ On Top) - AI, Python and FiveM Developer</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/code-animations.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -252,6 +253,7 @@ developer.connect()</code></pre>
 
     <script src="js/main.js"></script>
     <script src="js/animations.js"></script>
+    <script src="js/code-animations.js"></script>
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -268,6 +270,7 @@ developer.connect()</code></pre>
     <script>
         if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
             window.addEventListener('load', function() {
+                // Unregister any previous service worker first
                 navigator.serviceWorker.getRegistrations().then(function(registrations) {
                     for(let registration of registrations) {
                         registration.unregister();
