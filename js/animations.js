@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAnimations();
     initParticles();
     initScrollAnimations();
+    initTypewriterEffect();
 });
 
 // Initialize animations
@@ -87,7 +88,7 @@ function initParticles() {
     const particleCount = 60;
     const particles = [];
     
-    // Particle colors for Balamurali's theme
+    // Particle colors for DJ On Top's theme
     const particleColors = [
         'rgba(255, 187, 0, 0.3)',    // Primary gold
         'rgba(55, 0, 179, 0.2)',     // Deep purple
@@ -234,28 +235,108 @@ function initScrollAnimations() {
     document.head.appendChild(style);
 }
 
-// Typewriter effect for code window
-(function initTypewriterEffect() {
-    const codeElement = document.querySelector('.language-javascript');
-    if (!codeElement) return;
+// Typewriter effect for hero heading and code window
+function initTypewriterEffect() {
+    // Typewriter for main heading
+    const heroTitle = document.querySelector('.hero-content h1');
+    if (heroTitle) {
+        const originalTitle = heroTitle.innerHTML;
+        heroTitle.innerHTML = '';
+        heroTitle.classList.add('cursor-blink');
+        
+        let titleIndex = 0;
+        
+        function typeTitle() {
+            if (titleIndex < originalTitle.length) {
+                // Handle HTML tags in title
+                if (originalTitle[titleIndex] === '<') {
+                    // Find end of tag
+                    const endTagIndex = originalTitle.indexOf('>', titleIndex);
+                    if (endTagIndex !== -1) {
+                        // Add the whole tag at once
+                        heroTitle.innerHTML += originalTitle.substring(titleIndex, endTagIndex + 1);
+                        titleIndex = endTagIndex + 1;
+                    } else {
+                        // Fallback if no closing bracket
+                        heroTitle.innerHTML += originalTitle[titleIndex];
+                        titleIndex++;
+                    }
+                } else {
+                    heroTitle.innerHTML += originalTitle[titleIndex];
+                    titleIndex++;
+                }
+                
+                setTimeout(typeTitle, 50); // Adjust speed here
+            } else {
+                // Remove cursor after typing completes
+                setTimeout(() => {
+                    heroTitle.classList.remove('cursor-blink');
+                }, 1500);
+                
+                // Start typing subtitle after title completes
+                typeSubtitle();
+            }
+        }
+        
+        // Start typing title after a delay
+        setTimeout(typeTitle, 500);
+    }
     
-    const codeText = codeElement.textContent;
-    codeElement.textContent = '';
-    codeElement.classList.add('cursor-blink');
-    
-    let i = 0;
-    const typeSpeed = 30; // Typing speed in milliseconds
-    
-    function type() {
-        if (i < codeText.length) {
-            codeElement.textContent += codeText.charAt(i);
-            i++;
-            setTimeout(type, typeSpeed);
+    // Typewriter for subtitle
+    function typeSubtitle() {
+        const subtitle = document.querySelector('.animate-subtitle');
+        if (subtitle) {
+            const originalSubtitle = subtitle.textContent;
+            subtitle.textContent = '';
+            subtitle.classList.add('cursor-blink');
+            
+            let subtitleIndex = 0;
+            
+            function type() {
+                if (subtitleIndex < originalSubtitle.length) {
+                    subtitle.textContent += originalSubtitle[subtitleIndex];
+                    subtitleIndex++;
+                    setTimeout(type, 30); // Slightly faster than title
+                } else {
+                    setTimeout(() => {
+                        subtitle.classList.remove('cursor-blink');
+                        
+                        // Start code window typing after subtitle
+                        typeCodeWindow();
+                    }, 1000);
+                }
+            }
+            
+            type();
         } else {
-            codeElement.classList.remove('cursor-blink');
+            // If no subtitle, go to code window
+            typeCodeWindow();
         }
     }
     
-    // Start typing with a slight delay after page load
-    setTimeout(type, 1000);
-})(); 
+    // Typewriter for code window
+    function typeCodeWindow() {
+        const codeElement = document.querySelector('.language-javascript');
+        if (codeElement) {
+            const codeText = codeElement.textContent;
+            codeElement.textContent = '';
+            codeElement.classList.add('cursor-blink');
+            
+            let codeIndex = 0;
+            
+            function type() {
+                if (codeIndex < codeText.length) {
+                    codeElement.textContent += codeText[codeIndex];
+                    codeIndex++;
+                    setTimeout(type, 15); // Fastest typing for code
+                } else {
+                    setTimeout(() => {
+                        codeElement.classList.remove('cursor-blink');
+                    }, 1000);
+                }
+            }
+            
+            type();
+        }
+    }
+} 

@@ -1,5 +1,6 @@
 :root {
     --primary-color: #8c00ff;
+    --primary-color: #ffbb00;
     --secondary-color: #3700b3;
     --accent-color: #0078d4;
     --dark-color: #171923;
@@ -24,7 +25,6 @@
 }
 
 html[data-theme="dark"] {
-    --primary-color: #8c00ff;
     --secondary-color: #3700b3;
     --accent-color: #0078d4;
     --bg-color: #121212;
@@ -1004,6 +1004,9 @@ html[data-theme="dark"] .footer-bottom p {
     content: '|';
     animation: blink 1s infinite;
     color: var(--primary-color);
+    font-weight: 300;
+    margin-left: 2px;
+    opacity: 1;
 }
 
 @keyframes blink {

@@ -1,5 +1,5 @@
 // Service Worker for DJ On Top GitHub Repositories
-const CACHE_NAME = 'djontop-repo-cache-v1';
+const CACHE_NAME = 'djontop-repo-cache-v1.0.1';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -15,6 +15,9 @@ const ASSETS_TO_CACHE = [
 
 // Install event - cache essential assets
 self.addEventListener('install', event => {
+  // Force the waiting service worker to become the active service worker
+  self.skipWaiting();
+  
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
@@ -26,6 +29,9 @@ self.addEventListener('install', event => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', event => {
+  // Take control of all clients as soon as activated
+  self.clients.claim();
+  
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
@@ -40,7 +46,7 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch event - serve from cache if available, otherwise fetch and cache
+// Fetch event - network first, then cache strategy for better updates
 self.addEventListener('fetch', event => {
   // Skip cross-origin requests like GitHub API
   if (event.request.url.startsWith('https://api.github.com')) {
@@ -48,32 +54,39 @@ self.addEventListener('fetch', event => {
   }
 
   event.respondWith(
-    caches.match(event.request)
+    // Try network first
+    fetch(event.request)
       .then(response => {
-        // Return cached response if found
-        if (response) {
-          return response;
-        }
-
-        // Clone the request because it's a stream that can only be consumed once
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest).then(response => {
-          // Check if valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-
-          // Clone the response because it's a stream that can only be consumed once
-          const responseToCache = response.clone();
-
+        // If we got a valid response, clone it and update the cache
+        if (response && response.status === 200) {
+          const responseClone = response.clone();
           caches.open(CACHE_NAME)
             .then(cache => {
-              cache.put(event.request, responseToCache);
+              cache.put(event.request, responseClone);
             });
-
-          return response;
-        });
+        }
+        return response;
+      })
+      .catch(() => {
+        // If network fails, try cache
+        return caches.match(event.request)
+          .then(cachedResponse => {
+            if (cachedResponse) {
+              return cachedResponse;
+            }
+            
+            // If we don't have it in cache and network failed, 
+            // and it's a navigation request (HTML), return the offline page
+            if (event.request.mode === 'navigate') {
+              return caches.match('/');
+            }
+            
+            // Otherwise just return a simple response
+            return new Response('Network error occurred', {
+              status: 408,
+              headers: {'Content-Type': 'text/plain'}
+            });
+          });
       })
   );
 }); 

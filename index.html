@@ -8,13 +8,13 @@
     <meta name="author" content="Manthan Vasant (DJ On Top)">
     <meta name="robots" content="index, follow">
     <title>Manthan Vasant (DJ On Top) - AI, Python and FiveM Developer</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=1.0.1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json?v=1.0.1">
     <meta name="theme-color" content="#8c00ff">
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
     <meta property="og:title" content="Manthan Vasant (DJ On Top) - AI, Python and FiveM Developer">
@@ -22,6 +22,10 @@
     <meta property="og:image" content="https://files.fivemerr.com/images/0c499a61-91ee-46da-85c6-eba2826aff63.png">
     <meta property="og:url" content="https://djontop.github.io">
     <meta name="twitter:card" content="summary_large_image">
+    <!-- Cache control meta tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 </head>
 <body>
     <header>
@@ -249,8 +253,8 @@ connect();</code></pre>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
-    <script src="js/animations.js"></script>
+    <script src="js/main.js?v=1.0.1"></script>
+    <script src="js/animations.js?v=1.0.1"></script>
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -267,13 +271,20 @@ connect();</code></pre>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/serviceworker.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    })
-                    .catch(function(error) {
-                        console.log('ServiceWorker registration failed: ', error);
-                    });
+                // Unregister any previous service worker first
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                        registration.unregister();
+                    }
+                    // Then register the new one
+                    navigator.serviceWorker.register('/serviceworker.js?v=1.0.1')
+                        .then(function(registration) {
+                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        })
+                        .catch(function(error) {
+                            console.log('ServiceWorker registration failed: ', error);
+                        });
+                });
             });
         }
     </script>
