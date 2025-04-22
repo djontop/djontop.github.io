@@ -84,23 +84,23 @@
                         <span class="dot yellow"></span>
                         <span class="dot green"></span>
                     </div>
-                    <pre><code class="language-javascript">// Manthan Vasant (DJ On Top)
-const developer = {
-  name: "Manthan Vasant",
-  alias: "DJ On Top",
-  skills: ["Generative AI", "AI", "Python", "Machine Learning", 
-          "FiveM", "QBCore", "Lua"],
-  education: "B.Tech in AI and Data Science",
-  passion: "Creating AI solutions & awesome scripts",
-  github: "https://github.com/djontop"
-};
+                    <pre><code class="language-python"># Manthan Vasant (DJ On Top)
+class Developer:
+    def __init__(self):
+        self.name = "Manthan Vasant"
+        self.alias = "DJ On Top"
+        self.skills = ["Generative AI", "AI", "Python", "Machine Learning", 
+                      "FiveM", "QBCore", "Lua"]
+        self.education = "B.Tech in AI and Data Science"
+        self.passion = "Creating AI solutions & awesome scripts"
+        self.github = "https://github.com/djontop"
+    
+    def connect(self):
+        return self.github
 
-function connect() {
-  return developer.github;
-}
-
-// Ready to collaborate?
-connect();</code></pre>
+# Ready to collaborate?
+developer = Developer()
+developer.connect()</code></pre>
                 </div>
             </div>
         </div>
@@ -266,14 +266,13 @@ connect();</code></pre>
         }
     </script>
     <script>
-        if ('serviceWorker' in navigator) {
+        if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
             window.addEventListener('load', function() {
-                // Unregister any previous service worker first
                 navigator.serviceWorker.getRegistrations().then(function(registrations) {
                     for(let registration of registrations) {
                         registration.unregister();
                     }
-                    // Then register the new one
+                    // Then register th new one
                     navigator.serviceWorker.register('/serviceworker.js')
                         .then(function(registration) {
                             console.log('ServiceWorker registration successful with scope: ', registration.scope);

@@ -408,15 +408,16 @@ html[data-theme="dark"] .window-header {
 }
 
 .code-window pre {
-    padding: 20px;
-    color: white;
-    overflow-x: auto;
-    font-family: 'Consolas', monospace;
-    line-height: 1.7;
+    padding: 15px;
+    overflow: auto;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #f8f8f2;
 }
 
-.language-javascript {
-    color: white;
+.language-python {
+    color: #f8f8f2;
 }
 
 .repositories {

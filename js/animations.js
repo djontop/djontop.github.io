@@ -1,5 +1,16 @@
 // Advanced animations for the website
 document.addEventListener('DOMContentLoaded', () => {
+    // Add initial styles to hide text content that will be typed
+    const style = document.createElement('style');
+    style.textContent = `
+        .hero-content h1, 
+        .hero-content p, 
+        .code-window pre code {
+            visibility: hidden;
+        }
+    `;
+    document.head.appendChild(style);
+    
     initAnimations();
     initParticles();
     initScrollAnimations();
@@ -240,45 +251,80 @@ function initTypewriterEffect() {
     // Typewriter for main heading
     const heroTitle = document.querySelector('.hero-content h1');
     if (heroTitle) {
-        const originalTitle = heroTitle.innerHTML;
+        // Get the original content with HTML
+        const originalContent = heroTitle.innerHTML;
+        // Create a temporary div to parse the HTML
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = originalContent;
+        
+        // Create a document fragment to build the content
+        const fragment = document.createDocumentFragment();
+        const textNodes = [];
+        const spanNodes = [];
+        
+        // Extract text nodes and span elements
+        Array.from(tempDiv.childNodes).forEach(node => {
+            if (node.nodeType === Node.TEXT_NODE) {
+                textNodes.push(node.textContent);
+                spanNodes.push(null);
+            } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'SPAN') {
+                textNodes.push(node.textContent);
+                spanNodes.push(node.className);
+            }
+        });
+        
+        // Clear the title and make it visible
         heroTitle.innerHTML = '';
         heroTitle.classList.add('cursor-blink');
+        heroTitle.style.visibility = 'visible';
         
-        let titleIndex = 0;
+        let currentTextIndex = 0;
+        let currentCharIndex = 0;
         
         function typeTitle() {
-            if (titleIndex < originalTitle.length) {
-                // Handle HTML tags in title
-                if (originalTitle[titleIndex] === '<') {
-                    // Find end of tag
-                    const endTagIndex = originalTitle.indexOf('>', titleIndex);
-                    if (endTagIndex !== -1) {
-                        // Add the whole tag at once
-                        heroTitle.innerHTML += originalTitle.substring(titleIndex, endTagIndex + 1);
-                        titleIndex = endTagIndex + 1;
-                    } else {
-                        // Fallback if no closing bracket
-                        heroTitle.innerHTML += originalTitle[titleIndex];
-                        titleIndex++;
-                    }
-                } else {
-                    heroTitle.innerHTML += originalTitle[titleIndex];
-                    titleIndex++;
+            if (currentTextIndex < textNodes.length) {
+                const currentText = textNodes[currentTextIndex];
+                const isSpan = spanNodes[currentTextIndex] !== null;
+                
+                if (currentCharIndex === 0 && isSpan) {
+                    // If we're starting a span, create it
+                    const span = document.createElement('span');
+                    span.className = spanNodes[currentTextIndex];
+                    heroTitle.appendChild(span);
                 }
                 
-                setTimeout(typeTitle, 50); // Adjust speed here
+                if (currentCharIndex < currentText.length) {
+                    // Add the next character
+                    const char = currentText[currentCharIndex];
+                    
+                    if (isSpan) {
+                        // Add to the last child (the span we created)
+                        heroTitle.lastChild.textContent += char;
+                    } else {
+                        // Add directly to the title or create a text node
+                        if (heroTitle.lastChild && heroTitle.lastChild.nodeType === Node.TEXT_NODE) {
+                            heroTitle.lastChild.textContent += char;
+                        } else {
+                            heroTitle.appendChild(document.createTextNode(char));
+                        }
+                    }
+                    
+                    currentCharIndex++;
+                    setTimeout(typeTitle, 70);
+                } else {
+                    // Move to the next text node
+                    currentTextIndex++;
+                    currentCharIndex = 0;
+                    setTimeout(typeTitle, 70);
+                }
             } else {
-                // Remove cursor after typing completes
-                setTimeout(() => {
-                    heroTitle.classList.remove('cursor-blink');
-                }, 1500);
-                
-                // Start typing subtitle after title completes
+                // Done typing
+                heroTitle.classList.remove('cursor-blink');
                 typeSubtitle();
             }
         }
         
-        // Start typing title after a delay
+        // Start typing after a delay
         setTimeout(typeTitle, 500);
     }
     
@@ -289,6 +335,7 @@ function initTypewriterEffect() {
             const originalSubtitle = subtitle.textContent;
             subtitle.textContent = '';
             subtitle.classList.add('cursor-blink');
+            subtitle.style.visibility = 'visible';
             
             let subtitleIndex = 0;
             
@@ -296,47 +343,237 @@ function initTypewriterEffect() {
                 if (subtitleIndex < originalSubtitle.length) {
                     subtitle.textContent += originalSubtitle[subtitleIndex];
                     subtitleIndex++;
-                    setTimeout(type, 30); // Slightly faster than title
+                    setTimeout(type, 50);
                 } else {
-                    setTimeout(() => {
-                        subtitle.classList.remove('cursor-blink');
-                        
-                        // Start code window typing after subtitle
-                        typeCodeWindow();
-                    }, 1000);
+                    subtitle.classList.remove('cursor-blink');
+                    // Call the code window typing function after subtitle is done
+                    typeCodeWindow();
                 }
             }
             
-            type();
+            // Start typing subtitle after a small delay
+            setTimeout(type, 500);
         } else {
-            // If no subtitle, go to code window
+            // If subtitle element not found, skip to code window
             typeCodeWindow();
         }
     }
     
     // Typewriter for code window
     function typeCodeWindow() {
-        const codeElement = document.querySelector('.language-javascript');
-        if (codeElement) {
+        const codeElement = document.querySelector('.language-python');
+        const codeWindow = document.querySelector('.code-window');
+        const preElement = codeWindow ? codeWindow.querySelector('pre') : null;
+        
+        if (codeElement && codeWindow && preElement) {
+            // Store original content
             const codeText = codeElement.textContent;
+            
+            // Preserve code window dimensions
+            const windowHeight = codeWindow.offsetHeight;
+            const windowWidth = codeWindow.offsetWidth;
+            codeWindow.style.minHeight = windowHeight + 'px';
+            codeWindow.style.minWidth = windowWidth + 'px';
+            
+            // Add CSS for syntax highlighting
+            const styleElement = document.createElement('style');
+            styleElement.textContent = `
+                .code-window pre code {
+                    white-space: pre;
+                    display: block;
+                    min-height: ${codeElement.offsetHeight}px;
+                    color: #f8f8f2;
+                }
+                .py-keyword { color: #ff79c6; }
+                .py-string { color: #f1fa8c; }
+                .py-comment { color: #6272a4; }
+                .py-function { color: #50fa7b; }
+                .py-class { color: #8be9fd; }
+                .py-self { color: #bd93f9; }
+                .py-number { color: #bd93f9; }
+            `;
+            document.head.appendChild(styleElement);
+            
+            // Clear content and prepare for typing
             codeElement.textContent = '';
             codeElement.classList.add('cursor-blink');
+            codeElement.style.visibility = 'visible';
             
-            let codeIndex = 0;
+            // Split code into lines for easier manipulation
+            const codeLines = codeText.split('\n');
+            let currentLine = 0;
+            let currentCharInLine = 0;
             
-            function type() {
-                if (codeIndex < codeText.length) {
-                    codeElement.textContent += codeText[codeIndex];
-                    codeIndex++;
-                    setTimeout(type, 15); // Fastest typing for code
-                } else {
-                    setTimeout(() => {
-                        codeElement.classList.remove('cursor-blink');
-                    }, 1000);
+            // Track the full text we've typed so far
+            let typedText = '';
+            
+            function typeLine() {
+                // Check if we've typed all lines
+                if (currentLine >= codeLines.length) {
+                    // We're done, apply syntax highlighting
+                    syntaxHighlight();
+                    codeElement.classList.remove('cursor-blink');
+                    return;
                 }
+                
+                const line = codeLines[currentLine];
+                
+                // If we're starting a new line, add a newline character
+                if (currentCharInLine === 0 && typedText !== '') {
+                    typedText += '\n';
+                    codeElement.textContent = typedText;
+                }
+                
+                // If we've reached the end of the line
+                if (currentCharInLine >= line.length) {
+                    // Move to the next line
+                    currentLine++;
+                    currentCharInLine = 0;
+                    // Add a pause between lines
+                    setTimeout(typeLine, 100 + Math.random() * 100);
+                    return;
+                }
+                
+                // Type the next character
+                const char = line[currentCharInLine];
+                typedText += char;
+                codeElement.textContent = typedText;
+                currentCharInLine++;
+                
+                // Randomize typing speed - occasional pauses
+                let typingSpeed = 15;
+                if (char === ' ' && Math.random() < 0.1) {
+                    typingSpeed = 100 + Math.random() * 200; // Longer pause after some words
+                } else if ([',', '.', ':', ';'].includes(char)) {
+                    typingSpeed = 70 + Math.random() * 50; // Pause after punctuation
+                } else {
+                    typingSpeed = 15 + Math.random() * 10; // Normal typing speed
+                }
+                
+                // Continue typing
+                setTimeout(typeLine, typingSpeed);
             }
             
-            type();
+            // Syntax highlighting function that uses safer DOM manipulation
+            function syntaxHighlight() {
+                // Create a temporary div to hold the formatted code
+                const tempDiv = document.createElement('div');
+                
+                // Python keywords and special items to highlight
+                const keywords = ['class', 'def', 'self', 'return', 'import', 'from', 'if', 'else', 'elif', 
+                                 'for', 'while', 'in', 'and', 'or', 'not', 'True', 'False', 'None'];
+                
+                // Process each line
+                const lines = typedText.split('\n');
+                
+                lines.forEach(line => {
+                    // Create a new div for this line
+                    const lineDiv = document.createElement('div');
+                    
+                    // Handle comments first (they override everything else)
+                    if (line.trim().startsWith('#')) {
+                        const commentSpan = document.createElement('span');
+                        commentSpan.className = 'py-comment';
+                        commentSpan.textContent = line;
+                        lineDiv.appendChild(commentSpan);
+                        tempDiv.appendChild(lineDiv);
+                        return;
+                    }
+                    
+                    // Split the line into tokens (words, symbols, spaces)
+                    let tokens = [];
+                    let currentToken = '';
+                    let inString = false;
+                    let stringChar = '';
+                    
+                    // Simple tokenizer that respects string boundaries
+                    for (let i = 0; i < line.length; i++) {
+                        const char = line[i];
+                        
+                        // Handle strings
+                        if ((char === '"' || char === "'") && (i === 0 || line[i-1] !== '\\')) {
+                            if (!inString) {
+                                // Starting a string
+                                if (currentToken) {
+                                    tokens.push(currentToken);
+                                    currentToken = '';
+                                }
+                                inString = true;
+                                stringChar = char;
+                                currentToken = char;
+                            } else if (char === stringChar) {
+                                // Ending a string
+                                currentToken += char;
+                                tokens.push(currentToken);
+                                currentToken = '';
+                                inString = false;
+                            } else {
+                                // A different quote character inside a string
+                                currentToken += char;
+                            }
+                        } else if (inString) {
+                            // Inside a string, just add the character
+                            currentToken += char;
+                        } else if (/\s/.test(char)) {
+                            // Whitespace outside a string
+                            if (currentToken) {
+                                tokens.push(currentToken);
+                                currentToken = '';
+                            }
+                            tokens.push(char); // Keep whitespace as a token
+                        } else if (/[^\w]/.test(char)) {
+                            // Non-word character outside a string
+                            if (currentToken) {
+                                tokens.push(currentToken);
+                                currentToken = '';
+                            }
+                            tokens.push(char);
+                        } else {
+                            // Word character outside a string
+                            currentToken += char;
+                        }
+                    }
+                    
+                    // Add any remaining token
+                    if (currentToken) {
+                        tokens.push(currentToken);
+                    }
+                    
+                    // Process tokens and add them to the line
+                    tokens.forEach(token => {
+                        const span = document.createElement('span');
+                        
+                        // Check what kind of token this is
+                        if (keywords.includes(token)) {
+                            span.className = 'py-keyword';
+                        } else if (token === 'self') {
+                            span.className = 'py-self';
+                        } else if (token.startsWith('"') || token.startsWith("'")) {
+                            span.className = 'py-string';
+                        } else if (/^\d+$/.test(token)) {
+                            span.className = 'py-number';
+                        } else if (token === 'Developer') {
+                            span.className = 'py-class';
+                        } else if (token === 'connect') {
+                            span.className = 'py-function';
+                        }
+                        
+                        span.textContent = token;
+                        lineDiv.appendChild(span);
+                    });
+                    
+                    tempDiv.appendChild(lineDiv);
+                });
+                
+                // Clear the code element and add the highlighted code
+                codeElement.innerHTML = '';
+                tempDiv.childNodes.forEach(node => {
+                    codeElement.appendChild(node.cloneNode(true));
+                });
+            }
+            
+            // Start typing after a delay
+            setTimeout(typeLine, 800);
         }
     }
 } 
