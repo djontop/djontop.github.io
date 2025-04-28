@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
-        http://www.google.com/schemas/sitemap-image/1.1
-        http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd">
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-  <!-- Homepage -->
   <url>
     <loc>https://djontop.github.io/</loc>
-    <lastmod>2023-07-10</lastmod>
+    <lastmod>2025-04-29</lastmod> <!-- updated date -->
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -20,33 +14,4 @@
     </image:image>
   </url>
 
-  <!-- Main Sections (these are anchor links but useful for sitemaps) -->
-  <url>
-    <loc>https://djontop.github.io/#repositories</loc>
-    <lastmod>2023-07-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://djontop.github.io/#about</loc>
-    <lastmod>2023-07-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://djontop.github.io/#contact</loc>
-    <lastmod>2023-07-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- GitHub Profile -->
-  <url>
-    <loc>https://github.com/djontop</loc>
-    <lastmod>2023-07-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
 </urlset>
